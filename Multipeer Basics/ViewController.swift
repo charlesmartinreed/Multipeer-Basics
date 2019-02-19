@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     
     let messageInput: UITextField = {
         let input = UITextField()
+        input.borderStyle = .roundedRect
         input.backgroundColor = .white
         input.placeholder = "Enter message here"
         input.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +52,9 @@ class ViewController: UIViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        //set the delegate for our text field
+        messageInput.delegate = self
         
         setupMessengerUI()
         
@@ -102,7 +106,6 @@ class ViewController: UIViewController {
     
     //MARK:- Handler methods
     @objc func handleBarButtonTapped() {
-    
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
@@ -117,7 +120,11 @@ class ViewController: UIViewController {
             messageInputBottomAnchorConstraint.constant = -keyboardScreenEndFrame.height
         }
     }
+}
 
-
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return self.view.endEditing(true)
+    }
 }
 
