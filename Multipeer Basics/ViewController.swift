@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var deviceName = UIDevice.current.name
     var isHosting = false
     
-
+    var messages = [Message]()
     
     //MARK:- Properties
     var messageInputBottomAnchorConstraint: NSLayoutConstraint!
@@ -198,7 +198,29 @@ class ViewController: UIViewController {
 
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return self.view.endEditing(true)
+        if textField.text != "" {
+            guard let contents = textField.text else { return false }
+            
+            //create a message, store it in the messages array
+            let messageToSend = Message(sender: deviceName, contents: contents)
+            messages.append(messageToSend)
+            
+            //test print
+            messages.forEach { (message) in
+                print("\(message.sender) said \(message.contents)")
+            }
+            
+            textField.text = ""
+            
+          return self.view.endEditing(true)
+        } else {
+            let alert = UIAlertController(title: "Empty message", message: "Please enter a message", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                alert.dismiss(animated: true, completion: nil)
+            }))
+            present(alert, animated: true, completion: nil)
+        }
+        return false
     }
 }
 

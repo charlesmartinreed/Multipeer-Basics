@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C37CD7D221CC30900EF5CC3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD7C221CC30900EF5CC3 /* Extensions.swift */; };
+		8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD7E221CCB0700EF5CC3 /* Message.swift */; };
 		8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD470221B824B00320942 /* AppDelegate.swift */; };
 		8C8FD473221B824B00320942 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD472221B824B00320942 /* ViewController.swift */; };
 		8C8FD476221B824B00320942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C8FD474221B824B00320942 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		8C37CD7C221CC30900EF5CC3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		8C37CD7E221CCB0700EF5CC3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8C8FD46D221B824B00320942 /* Multipeer Basics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Basics.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8FD470221B824B00320942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8FD472221B824B00320942 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				8C8FD479221B824D00320942 /* LaunchScreen.storyboard */,
 				8C8FD47C221B824D00320942 /* Info.plist */,
 				8C37CD7C221CC30900EF5CC3 /* Extensions.swift */,
+				8C37CD7E221CCB0700EF5CC3 /* Message.swift */,
 			);
 			path = "Multipeer Basics";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C8FD473221B824B00320942 /* ViewController.swift in Sources */,
+				8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */,
 				8C37CD7D221CC30900EF5CC3 /* Extensions.swift in Sources */,
 				8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */,
 			);
