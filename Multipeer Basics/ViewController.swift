@@ -27,13 +27,13 @@ class ViewController: UIViewController {
         return input
     }()
     
-    let sendButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Send", for: .normal)
-        button.setTitleColor(.green, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    let sendButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Send", for: .normal)
+//        button.setTitleColor(.green, for: .normal)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     lazy var connectionToolbar: UIToolbar = {
         let toolbar = UIToolbar()
@@ -47,6 +47,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 227.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1)
         
+        //setup notification center to observer keyboard events
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
         setupMessengerUI()
         
     }
@@ -54,7 +59,7 @@ class ViewController: UIViewController {
     private func setupMessengerUI() {
         view.addSubview(messageTextView)
         view.addSubview(messageInput)
-        view.addSubview(sendButton)
+        //view.addSubview(sendButton)
         view.addSubview(connectionToolbar)
         
         messageInputBottomAnchorConstraint = messageInput.bottomAnchor.constraint(equalTo: connectionToolbar.topAnchor, constant: -4)
@@ -68,17 +73,17 @@ class ViewController: UIViewController {
         
         let messageInputConstraints: [NSLayoutConstraint] = [
             messageInput.bottomAnchor.constraint(equalTo: connectionToolbar.topAnchor, constant: -4),
-            messageInput.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
             messageInput.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            messageInput.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -4),
+            messageInput.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            messageInput.heightAnchor.constraint(equalToConstant: 40),
             messageInputBottomAnchorConstraint
         ]
         
-        let sendButtonConstraints: [NSLayoutConstraint] = [
-            sendButton.widthAnchor.constraint(equalToConstant: 48),
-            sendButton.bottomAnchor.constraint(equalTo: connectionToolbar.topAnchor, constant: -4),
-            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-        ]
+//        let sendButtonConstraints: [NSLayoutConstraint] = [
+//            sendButton.widthAnchor.constraint(equalToConstant: 48),
+//            sendButton.bottomAnchor.constraint(equalTo: connectionToolbar.topAnchor, constant: -4),
+//            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+//        ]
         
         let toolbarConstraints: [NSLayoutConstraint] = [
             connectionToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -88,16 +93,28 @@ class ViewController: UIViewController {
         
         NSLayoutConstraint.activate(messagesTextViewConstraints)
         NSLayoutConstraint.activate(messageInputConstraints)
-        NSLayoutConstraint.activate(sendButtonConstraints)
+        //NSLayoutConstraint.activate(sendButtonConstraints)
         NSLayoutConstraint.activate(toolbarConstraints)
         
         
     }
     
+    
+    //MARK:- Handler methods
     @objc func handleBarButtonTapped() {
-        messageInputBottomAnchorConstraint.constant = -350
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
+    
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            messageInputBottomAnchorConstraint.constant = -4
+        } else {
+            messageInputBottomAnchorConstraint.constant = -keyboardScreenEndFrame.height
         }
     }
 
