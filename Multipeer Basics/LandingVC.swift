@@ -24,7 +24,7 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     let helloLabelView: UIView = {
        let labelView = UIView()
         labelView.translatesAutoresizingMaskIntoConstraints = false
-        labelView.backgroundColor = .red
+        labelView.backgroundColor = UIColor(red: 207.0/255.0, green: 48.0/255.0, blue: 48.0/255.0, alpha: 1)
         labelView.layer.cornerRadius = 10
         
         return labelView
@@ -57,16 +57,43 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         
         label.font = UIFont.systemFont(ofSize: 48)
         label.textColor = UIColor.black
-        //label.textAlignment = .center
         label.numberOfLines = 1
         label.text = "Charles"
         
         return label
     }()
+    
+    let hostButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.setTitle("Host a Chat", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(red: 207.0/255.0, green: 48.0/255.0, blue: 48.0/255.0, alpha: 1)
+        button.layer.cornerRadius = 8
+        
+        button.addTarget(self, action: #selector(hostChatTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    let joinButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.setTitle("Join a Chat", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(red: 207.0/255.0, green: 48.0/255.0, blue: 48.0/255.0, alpha: 1)
+        button.layer.cornerRadius = 8
+        
+        button.addTarget(self, action: #selector(joinChatTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .orange
+        view.backgroundColor = UIColor(red: 244.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1)
         
 //        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
 //        tapRecognizer.delegate = self
@@ -82,6 +109,7 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         setupImageView()
         setupLabelView()
         setupLabelText()
+        setupButtons()
     }
     
     func setupImageView() {
@@ -146,6 +174,30 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         NSLayoutConstraint.activate(nameLabelConstraints)
     }
     
+    func setupButtons() {
+        view.addSubview(hostButton)
+        view.addSubview(joinButton)
+        
+        let hostButtonConstraints: [NSLayoutConstraint] = [
+            hostButton.topAnchor.constraint(equalTo: helloLabelView.bottomAnchor, constant: 32),
+            hostButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            hostButton.heightAnchor.constraint(equalToConstant: 36),
+            hostButton.widthAnchor.constraint(equalToConstant: 128)
+        ]
+        
+        let joinButtonConstraints: [NSLayoutConstraint] = [
+            joinButton.topAnchor.constraint(equalTo: hostButton.bottomAnchor, constant: 16),
+            joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            joinButton.heightAnchor.constraint(equalToConstant: 36),
+            joinButton.widthAnchor.constraint(equalToConstant: 128)
+        ]
+        
+        NSLayoutConstraint.activate(hostButtonConstraints)
+        NSLayoutConstraint.activate(joinButtonConstraints)
+    }
+    
+    
+    //MARK:- Handling methods
     @objc func presentPickerView() {
         print("present picker view now")
     }
@@ -155,6 +207,14 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
+    }
+    
+    @objc func hostChatTapped() {
+        print("host tapped")
+    }
+    
+    @objc func joinChatTapped() {
+        print("join tapped")
     }
 
 }
