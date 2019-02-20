@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UIViewController {
+class ChatVC: UIViewController {
     
     //MARK:- Multipeer properties
     var peerId: MCPeerID!
@@ -50,8 +50,11 @@ class ViewController: UIViewController {
     
     lazy var connectionToolbar: UIToolbar = {
         let toolbar = UIToolbar()
-        let item = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(handleBarButtonTapped))
-        toolbar.items = [item]
+        let chatImage = #imageLiteral(resourceName: "chat-icon").withRenderingMode(.alwaysOriginal)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
+        let chatButton = UIBarButtonItem(image: chatImage, style: .plain, target: self, action: #selector(handleBarButtonTapped))
+        toolbar.items = [flexSpace, chatButton, flexSpace]
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         return toolbar
     }()
@@ -197,6 +200,15 @@ class ViewController: UIViewController {
         }
     }
     
+    func displayAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            ac.dismiss(animated: true, completion: nil)
+        }))
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
     func convertMessageToData(message: Message) {
         if let sender = message.sender.data(using: .utf8, allowLossyConversion: false), let contents = message.contents.data(using: .utf8, allowLossyConversion: false) {
             
@@ -237,7 +249,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text != "" {
             guard let contents = textField.text else { return false }
@@ -269,7 +281,7 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController: MCSessionDelegate, MCBrowserViewControllerDelegate {
+extension ChatVC: MCSessionDelegate, MCBrowserViewControllerDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         
         switch state {
@@ -279,6 +291,8 @@ extension ViewController: MCSessionDelegate, MCBrowserViewControllerDelegate {
             print("Connecting: \(peerID.displayName)")
         case .notConnected:
             print("Not Connected: \(peerID.displayName)")
+//            displayAlert(title: "User has disconnected", message: "\(peerID.displayName) has left.")
+//            self.messageTextView.text = ""
         }
     }
     
