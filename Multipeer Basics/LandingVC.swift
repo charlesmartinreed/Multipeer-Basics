@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class LandingVC: UIViewController, UIGestureRecognizerDelegate {
+    
+    var currentUserName: String?
+    var currentUserPhoto: UIImage?
+    var currentUserID: MCPeerID?
     
     //MARK: Properties
     lazy var userImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "chat-icon").withRenderingMode(.alwaysOriginal)
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.borderWidth = 3
+        
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
@@ -64,7 +72,8 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         label.font = UIFont.systemFont(ofSize: 48)
         label.textColor = UIColor.black
         label.numberOfLines = 1
-        label.text = "Charles"
+        label.minimumScaleFactor = 0.5
+        label.text = "Tony Rando"
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGestureRecognizer.delegate = self
@@ -206,14 +215,39 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         NSLayoutConstraint.activate(joinButtonConstraints)
     }
     
+    func updateUserInfo(for: User) {
+        
+    }
+    
+    func createNewUser(user: User) {
+        
+    }
+    
     
     //MARK:- Handling methods
     private func presentPickerView() {
         print("image view tapped")
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.sourceType = .camera
+        imagePickerVC.allowsEditing = true
+        imagePickerVC.delegate = self
+        present(imagePickerVC, animated: true, completion: nil)
     }
     
     private func presentTextInput() {
-        print("label tapped")
+        let ac = UIAlertController(title: "What's your name?", message: nil, preferredStyle: .alert)
+        ac.addTextField(configurationHandler: nil)
+        
+        let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned ac] _  in
+            //update the text in our name label
+            if let newName = ac.textFields?.first?.text {
+                self.nameLabel.text = newName
+                self.currentUserName = newName
+            }
+            
+        }
+        ac.addAction(submitAction)
+        present(ac, animated: true, completion: nil)
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -225,6 +259,7 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func hostChatTapped() {
+        //create a user with the given information, or, if none given, use the default.
         print("host tapped")
     }
     
@@ -232,4 +267,19 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         print("join tapped")
     }
 
+}
+
+extension LandingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        //update user photo and add the photo to the photo ID
+        self.currentUserPhoto = image
+        userImageView.image = image
+    }
+    
 }

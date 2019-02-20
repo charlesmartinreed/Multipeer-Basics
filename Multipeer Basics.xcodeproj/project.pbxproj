@@ -10,6 +10,7 @@
 		8C37CD7D221CC30900EF5CC3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD7C221CC30900EF5CC3 /* Extensions.swift */; };
 		8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD7E221CCB0700EF5CC3 /* Message.swift */; };
 		8C37CD81221CF80C00EF5CC3 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD80221CF80C00EF5CC3 /* LandingVC.swift */; };
+		8C37CD83221D23C700EF5CC3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD82221D23C700EF5CC3 /* User.swift */; };
 		8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD470221B824B00320942 /* AppDelegate.swift */; };
 		8C8FD473221B824B00320942 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD472221B824B00320942 /* ChatVC.swift */; };
 		8C8FD476221B824B00320942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C8FD474221B824B00320942 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 		8C37CD7C221CC30900EF5CC3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8C37CD7E221CCB0700EF5CC3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8C37CD80221CF80C00EF5CC3 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
+		8C37CD82221D23C700EF5CC3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8C8FD46D221B824B00320942 /* Multipeer Basics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Basics.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8FD470221B824B00320942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8FD472221B824B00320942 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				8C8FD47C221B824D00320942 /* Info.plist */,
 				8C37CD7C221CC30900EF5CC3 /* Extensions.swift */,
 				8C37CD7E221CCB0700EF5CC3 /* Message.swift */,
+				8C37CD82221D23C700EF5CC3 /* User.swift */,
 			);
 			path = "Multipeer Basics";
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			files = (
 				8C8FD473221B824B00320942 /* ChatVC.swift in Sources */,
 				8C37CD81221CF80C00EF5CC3 /* LandingVC.swift in Sources */,
+				8C37CD83221D23C700EF5CC3 /* User.swift in Sources */,
 				8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */,
 				8C37CD7D221CC30900EF5CC3 /* Extensions.swift in Sources */,
 				8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */,
