@@ -11,9 +11,16 @@ import MultipeerConnectivity
 
 class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     
+    //MARK:- Coordinator Properties
+    weak var coordinator: MainCoordinator?
+    
+    //MARK:- User information
     var currentUserName: String?
     var currentUserPhoto: UIImage?
-    var currentUserID: MCPeerID?
+    
+    var delegate: MultipeerServiceDelegate?
+    let mpService = MultipeerService.sharedInstance
+    
     
     //MARK: Properties
     lazy var userImageView: UIImageView = {
@@ -114,14 +121,9 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 244.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1)
         
-//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        tapRecognizer.delegate = self
-//        view.addGestureRecognizer(tapRecognizer)
-        
+        navigationController?.navigationBar.isHidden = true
         setupLandingPageUI()
-        
-
-        // Do any additional setup after loading the view.
+    
     }
     
     func setupLandingPageUI() {
@@ -138,7 +140,7 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
 //        view.addGestureRecognizer(imageTap)
         
         let imageViewConstraints: [NSLayoutConstraint] = [
-            userImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64),
+            userImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             userImageView.heightAnchor.constraint(equalToConstant: 128),
             userImageView.widthAnchor.constraint(equalToConstant: 128),
             userImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -151,9 +153,6 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         view.addSubview(helloLabelView)
         helloLabelView.addSubview(nameLabelView)
         nameLabelView.addSubview(nameLabel)
-        
-//        let labelTap = UITapGestureRecognizer(target: self, action: #selector(presentTextInput))
-//        view.addGestureRecognizer(labelTap)
         
         let helloViewConstraints: [NSLayoutConstraint] = [
             helloLabelView.topAnchor.constraint(equalTo: userImageView.bottomAnchor, constant: 32),
@@ -259,14 +258,20 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func hostChatTapped() {
-        //create a user with the given information, or, if none given, use the default.
-        print("host tapped")
+        coordinator?.moveToChat()
     }
     
     @objc func joinChatTapped() {
-        print("join tapped")
+        coordinator?.moveToChat()
     }
-
+    
+    func startPeering() {
+        if let name = currentUserName, let photo = currentUserPhoto {
+            mpService.setupMCPeering(for: User(name: name, photo: photo))
+        } else {
+            mpService.setupMCPeering(for: User(name: "Tony Rando", photo: #imageLiteral(resourceName: "chat-icon")))
+        }
+    }
 }
 
 extension LandingVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -282,4 +287,14 @@ extension LandingVC: UIImagePickerControllerDelegate, UINavigationControllerDele
         userImageView.image = image
     }
     
+}
+
+extension LandingVC: MultipeerServiceDelegate {
+    func setupMCPeering(for user: User) {
+        if let name = currentUserName, let photo = currentUserPhoto {
+            delegate?.setupMCPeering(for: User(name: name, photo: photo))
+        } else {
+            delegate?.setupMCPeering(for: User(name: "Tony Rando", photo: #imageLiteral(resourceName: "chat-icon")))
+        }
+    }
 }

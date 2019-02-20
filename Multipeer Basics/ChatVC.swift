@@ -11,6 +11,8 @@ import MultipeerConnectivity
 
 class ChatVC: UIViewController {
     
+    weak var coordinator: MainCoordinator?
+    
     //MARK:- Multipeer properties
     var peerId: MCPeerID!
     var mcSession: MCSession!
@@ -40,14 +42,6 @@ class ChatVC: UIViewController {
         return input
     }()
     
-//    let sendButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Send", for: .normal)
-//        button.setTitleColor(.green, for: .normal)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
     lazy var connectionToolbar: UIToolbar = {
         let toolbar = UIToolbar()
         let chatImage = #imageLiteral(resourceName: "chat-icon").withRenderingMode(.alwaysOriginal)
@@ -61,6 +55,9 @@ class ChatVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
+        
+        
         view.backgroundColor = UIColor(red: 227.0/255.0, green: 229.0/255.0, blue: 229.0/255.0, alpha: 1)
         
         //setup notification center to observer keyboard events
@@ -106,12 +103,6 @@ class ChatVC: UIViewController {
             messageInput.heightAnchor.constraint(equalToConstant: 40),
             messageInputBottomAnchorConstraint
         ]
-        
-//        let sendButtonConstraints: [NSLayoutConstraint] = [
-//            sendButton.widthAnchor.constraint(equalToConstant: 48),
-//            sendButton.bottomAnchor.constraint(equalTo: connectionToolbar.topAnchor, constant: -4),
-//            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-//        ]
         
         let toolbarConstraints: [NSLayoutConstraint] = [
             connectionToolbar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -221,30 +212,12 @@ class ChatVC: UIViewController {
     
     func sendMessageToPeer(message: [String: Data]) {
         //Multipeer needs to send this as data
-        //MARK:- TODO: MAP MESSAGE CLASS
-        //good use case for map here - look into implementing mappable class/struct for Message
-        
-        //convert dictionary to NSData to send it as a peer
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: message, requiringSecureCoding: true)
             try self.mcSession.send(data, toPeers: self.mcSession.connectedPeers, with: .reliable)
         } catch let error {
             print(error.localizedDescription)
         }
-//        if let contents = message.contents.data(using: .utf8, allowLossyConversion: false) {
-//
-//            //try to send
-//            do {
-//                try self.mcSession.send(contents, toPeers: self.mcSession.connectedPeers, with: .reliable)
-//            } catch let error {
-//                print(error.localizedDescription)
-//            }
-//
-//            //message should also appear on our screen
-//            messageTextView.text = messageTextView.text + "\n\(message.sender): \(message.contents)"
-//        }
-        
-        
         
     }
 }

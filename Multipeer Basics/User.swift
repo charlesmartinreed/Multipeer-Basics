@@ -12,11 +12,11 @@ import MultipeerConnectivity
 struct User {
     var name: String?
     var photo: UIImage?
-    var peerID: MCPeerID?
+    //var peerID: MCPeerID?
     
-    init(name: String?, photo: UIImage?, peerID: MCPeerID?) {
+    init(name: String?, photo: UIImage?) {
         self.name = name
         self.photo = photo
-        self.peerID = peerID
+        //self.peerID = peerID
     }
 }

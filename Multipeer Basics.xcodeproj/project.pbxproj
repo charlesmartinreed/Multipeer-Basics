@@ -11,6 +11,9 @@
 		8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD7E221CCB0700EF5CC3 /* Message.swift */; };
 		8C37CD81221CF80C00EF5CC3 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD80221CF80C00EF5CC3 /* LandingVC.swift */; };
 		8C37CD83221D23C700EF5CC3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD82221D23C700EF5CC3 /* User.swift */; };
+		8C37CD85221D2BC200EF5CC3 /* MultipeerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD84221D2BC200EF5CC3 /* MultipeerService.swift */; };
+		8C37CD87221D39DD00EF5CC3 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD86221D39DD00EF5CC3 /* Coordinator.swift */; };
+		8C37CD89221D3A2700EF5CC3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C37CD88221D3A2700EF5CC3 /* MainCoordinator.swift */; };
 		8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD470221B824B00320942 /* AppDelegate.swift */; };
 		8C8FD473221B824B00320942 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FD472221B824B00320942 /* ChatVC.swift */; };
 		8C8FD476221B824B00320942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C8FD474221B824B00320942 /* Main.storyboard */; };
@@ -23,6 +26,9 @@
 		8C37CD7E221CCB0700EF5CC3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8C37CD80221CF80C00EF5CC3 /* LandingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
 		8C37CD82221D23C700EF5CC3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8C37CD84221D2BC200EF5CC3 /* MultipeerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerService.swift; sourceTree = "<group>"; };
+		8C37CD86221D39DD00EF5CC3 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		8C37CD88221D3A2700EF5CC3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		8C8FD46D221B824B00320942 /* Multipeer Basics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Basics.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8FD470221B824B00320942 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8FD472221B824B00320942 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
@@ -62,6 +68,7 @@
 		8C8FD46F221B824B00320942 /* Multipeer Basics */ = {
 			isa = PBXGroup;
 			children = (
+				8C37CD84221D2BC200EF5CC3 /* MultipeerService.swift */,
 				8C8FD470221B824B00320942 /* AppDelegate.swift */,
 				8C37CD80221CF80C00EF5CC3 /* LandingVC.swift */,
 				8C8FD472221B824B00320942 /* ChatVC.swift */,
@@ -72,6 +79,8 @@
 				8C37CD7C221CC30900EF5CC3 /* Extensions.swift */,
 				8C37CD7E221CCB0700EF5CC3 /* Message.swift */,
 				8C37CD82221D23C700EF5CC3 /* User.swift */,
+				8C37CD86221D39DD00EF5CC3 /* Coordinator.swift */,
+				8C37CD88221D3A2700EF5CC3 /* MainCoordinator.swift */,
 			);
 			path = "Multipeer Basics";
 			sourceTree = "<group>";
@@ -147,11 +156,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C37CD87221D39DD00EF5CC3 /* Coordinator.swift in Sources */,
 				8C8FD473221B824B00320942 /* ChatVC.swift in Sources */,
 				8C37CD81221CF80C00EF5CC3 /* LandingVC.swift in Sources */,
 				8C37CD83221D23C700EF5CC3 /* User.swift in Sources */,
 				8C37CD7F221CCB0700EF5CC3 /* Message.swift in Sources */,
 				8C37CD7D221CC30900EF5CC3 /* Extensions.swift in Sources */,
+				8C37CD85221D2BC200EF5CC3 /* MultipeerService.swift in Sources */,
+				8C37CD89221D3A2700EF5CC3 /* MainCoordinator.swift in Sources */,
 				8C8FD471221B824B00320942 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
