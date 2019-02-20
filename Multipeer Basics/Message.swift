@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Message {
+class Message: NSObject {
     var contents: String
     var sender: String
     

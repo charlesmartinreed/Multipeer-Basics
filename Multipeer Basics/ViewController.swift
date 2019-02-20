@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     var deviceName = UIDevice.current.name
     var isHosting = false
     
-    var messages = [Message]()
+    var sentMessages = [[String:Data]]()
+    var receivedMessages = [[String: Data]]()
     
     //MARK:- Properties
     var messageInputBottomAnchorConstraint: NSLayoutConstraint!
@@ -187,11 +188,51 @@ class ViewController: UIViewController {
             
             disconnectSheet.addAction(UIAlertAction(title: "Disconnect", style: .destructive, handler: { (_) in
                 self.mcSession.disconnect()
+                //MARK:- TODO, SEND BACK TO SPLASH SCREEN
+                self.messageTextView.text = ""
             }))
             
             disconnectSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(disconnectSheet, animated: true, completion: nil)
         }
+    }
+    
+    func convertMessageToData(message: Message) {
+        if let sender = message.sender.data(using: .utf8, allowLossyConversion: false), let contents = message.contents.data(using: .utf8, allowLossyConversion: false) {
+            
+            let messageDict = ["sender": sender, "contents": contents]
+            //sentMessages.append(messageDict)
+            sendMessageToPeer(message: messageDict)
+            
+        }
+    }
+    
+    func sendMessageToPeer(message: [String: Data]) {
+        //Multipeer needs to send this as data
+        //MARK:- TODO: MAP MESSAGE CLASS
+        //good use case for map here - look into implementing mappable class/struct for Message
+        
+        //convert dictionary to NSData to send it as a peer
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: message, requiringSecureCoding: true)
+            try self.mcSession.send(data, toPeers: self.mcSession.connectedPeers, with: .reliable)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+//        if let contents = message.contents.data(using: .utf8, allowLossyConversion: false) {
+//
+//            //try to send
+//            do {
+//                try self.mcSession.send(contents, toPeers: self.mcSession.connectedPeers, with: .reliable)
+//            } catch let error {
+//                print(error.localizedDescription)
+//            }
+//
+//            //message should also appear on our screen
+//            messageTextView.text = messageTextView.text + "\n\(message.sender): \(message.contents)"
+//        }
+        
+        
         
     }
 }
@@ -203,14 +244,18 @@ extension ViewController: UITextFieldDelegate {
             
             //create a message, store it in the messages array
             let messageToSend = Message(sender: deviceName, contents: contents)
-            messages.append(messageToSend)
+            convertMessageToData(message: messageToSend)
+            //sendMessageToPeer(message: messageToSend)
+            //sentMessages.append(messageToSend)
             
             //test print
-            messages.forEach { (message) in
-                print("\(message.sender) said \(message.contents)")
-            }
-            
+//            sentMessages.forEach { (message) in
+//                print("\(message.sender) said \(message.contents)")
+//            }
+            //message should also appear on our screen
+            messageTextView.text = messageTextView.text + "\n\(messageToSend.sender): \(messageToSend.contents)"
             textField.text = ""
+            
             
           return self.view.endEditing(true)
         } else {
@@ -227,10 +272,33 @@ extension ViewController: UITextFieldDelegate {
 extension ViewController: MCSessionDelegate, MCBrowserViewControllerDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         
+        switch state {
+        case .connected:
+            print("Connected: \(peerID.displayName)")
+        case .connecting:
+            print("Connecting: \(peerID.displayName)")
+        case .notConnected:
+            print("Not Connected: \(peerID.displayName)")
+        }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        
+        DispatchQueue.main.async {
+            do {
+                let messageDict = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! Dictionary<String, Data>
+                //pull from the dictionary
+                if let messageData = messageDict["contents"], let messageSender = messageDict["sender"] {
+                    let contents = String(data: messageData, encoding: .utf8)!
+                    let sender = String(data: messageSender, encoding: .utf8)!
+                    let newMessage = Message(sender: sender, contents: contents)
+                    self.messageTextView.text = self.messageTextView.text + "\n\(newMessage.sender): \(newMessage.contents)"
+                }
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+            
+        }
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -246,11 +314,11 @@ extension ViewController: MCSessionDelegate, MCBrowserViewControllerDelegate {
     }
     
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     
