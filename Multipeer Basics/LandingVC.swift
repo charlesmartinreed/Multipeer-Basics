@@ -11,12 +11,17 @@ import UIKit
 class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Properties
-    let userImageView: UIImageView = {
+    lazy var userImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "chat-icon").withRenderingMode(.alwaysOriginal)
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        tapGestureRecognizer.delegate = self
+        imageView.addGestureRecognizer(tapGestureRecognizer)
         
         return imageView
     }()
@@ -51,14 +56,19 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
         return labelView
     }()
     
-    let nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isUserInteractionEnabled = true
         
         label.font = UIFont.systemFont(ofSize: 48)
         label.textColor = UIColor.black
         label.numberOfLines = 1
         label.text = "Charles"
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        tapGestureRecognizer.delegate = self
+        label.addGestureRecognizer(tapGestureRecognizer)
         
         return label
     }()
@@ -182,14 +192,14 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
             hostButton.topAnchor.constraint(equalTo: helloLabelView.bottomAnchor, constant: 32),
             hostButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             hostButton.heightAnchor.constraint(equalToConstant: 36),
-            hostButton.widthAnchor.constraint(equalToConstant: 128)
+            hostButton.widthAnchor.constraint(equalToConstant: 150)
         ]
         
         let joinButtonConstraints: [NSLayoutConstraint] = [
             joinButton.topAnchor.constraint(equalTo: hostButton.bottomAnchor, constant: 16),
             joinButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             joinButton.heightAnchor.constraint(equalToConstant: 36),
-            joinButton.widthAnchor.constraint(equalToConstant: 128)
+            joinButton.widthAnchor.constraint(equalToConstant: 150)
         ]
         
         NSLayoutConstraint.activate(hostButtonConstraints)
@@ -198,15 +208,20 @@ class LandingVC: UIViewController, UIGestureRecognizerDelegate {
     
     
     //MARK:- Handling methods
-    @objc func presentPickerView() {
-        print("present picker view now")
+    private func presentPickerView() {
+        print("image view tapped")
     }
     
-    @objc func presentTextInput() {
-        print("present text input")
+    private func presentTextInput() {
+        print("label tapped")
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.view is UIImageView {
+           presentPickerView()
+        } else if sender.view is UILabel {
+            presentTextInput()
+        }
     }
     
     @objc func hostChatTapped() {
